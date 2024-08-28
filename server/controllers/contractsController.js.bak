@@ -1,0 +1,39 @@
+const ContractsModel = require('../models/contractsModel');
+
+exports.getContractList = ( req, res ) => {
+	console.log('contract list action hitted');
+	ContractsModel.getContractList(( err, contracts ) => {
+		console.log('i m here');
+		if ( err ) {
+			res.send(err);
+		} else {
+			res.send(contracts);
+		}
+	});
+};
+
+exports.getContractListByUser = ( req, res ) => {
+	ContractsModel.getContractListByUser(req.params.id, ( err, contract ) => {
+		if ( err ) {
+			res.send(err);
+			console.log('user contracts data', err);
+			return;
+		} else {
+			res.send(contract);
+		}
+	});
+	console.log('hitting contracts by id');
+};
+
+exports.getActiveContractListByUser = ( req, res ) => {
+	console.log(req.params, 'params here');
+	ContractsModel.getActiveContractListByUser(req.params.id, req.params.status, ( err, contract ) => {
+		if ( err ) {
+			res.send(err);
+			console.log('user active contracts data', err);
+		} else {
+			res.send(contract);
+		}
+		console.log('Hitting active contracts by Status', req.params.id, req.params.status);
+	});
+};
